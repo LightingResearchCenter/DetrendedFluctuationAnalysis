@@ -66,9 +66,11 @@ for i1 = 1:numel(n)
     Y = y2 - y_fit;
     
     F(i1) = sqrt(sum(Y.^2)/N_max);
+    
+    if i1 == floor(numel(n)/2)
+        localtrendplot(datetimeArray,dataArray,y2,y_fit,Y,N_max)
+    end
 end
-
-% localtrendplot(datetimeArray,dataArray,y2,y_fit,Y,N_max)
 
 logF = log10(F);
 logn = log10(n);
