@@ -29,10 +29,10 @@ function alpha = dfa(datetimeArray,dataArray,order,timeScaleRange,varargin)
 %       alpha > 1   : non-stationary, unbounded
 %       alpha = 1.5 : Brownian noise
 
-% Open the pool
-if isempty(gcp('nocreate'))
-    parpool;
-end
+% % Open the pool
+% if isempty(gcp('nocreate'))
+%     parpool;
+% end
 
 % Rename the variables to match Hu, et al. 2001
 u = dataArray(:);
@@ -67,9 +67,9 @@ for i1 = 1:numel(n)
     
     F(i1) = sqrt(sum(Y.^2)/N_max);
     
-    if i1 == floor(numel(n)/2)
-        localtrendplot(datetimeArray,dataArray,y2,y_fit,Y,N_max)
-    end
+%     if i1 == floor(numel(n)/2)
+%         localtrendplot(datetimeArray,dataArray,y2,y_fit,Y,N_max)
+%     end
 end
 
 logF = log10(F);
@@ -79,7 +79,7 @@ p_F = polyfit(logn,logF,1);
 alpha = p_F(1);
 
 % Create plot if a figure handle is given
-if nargin == 5
+if nargin >= 5
     h = varargin{1};
     figure(h);
     
@@ -92,6 +92,11 @@ if nargin == 5
     yText = 1.25*10^mean(log10(hAxes.YLim));
     textString = ['\alpha = ',num2str(alpha)];
     text(xText,yText,textString);
+end
+
+if nargin >= 6
+    figureTitle = varargin{2};
+    title(figureTitle);
 end
 
 end
